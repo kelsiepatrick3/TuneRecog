@@ -10,6 +10,7 @@ public class Beep
 	public Beep()
 	{
 		System.out.println("beep");
+		System.out.println("beepbeep");
 	}
 	
 }
