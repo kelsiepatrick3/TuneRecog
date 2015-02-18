@@ -5,7 +5,7 @@
 //plots the sine/cosine function, not an actual sound wave
 
 
-package sonar;
+package sonar; // blah
 
 import java.awt.*;
 import java.awt.event.*;
