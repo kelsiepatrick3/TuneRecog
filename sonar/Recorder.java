@@ -27,9 +27,6 @@ public class Recorder extends Thread
       m_outputFile = file;
    }
 
-
-
-
    /** Starts the recording.
        To accomplish this, (i) the line is started and (ii) the
        thread is started.

@@ -17,23 +17,9 @@ import javax.swing.*;
 public class SWave extends JFrame implements ActionListener
 {
 	
-	double[] wave, wave1;			//holds the recording information to be recorded
+	double[] wave, wave1;			//holds the raw recorded sound wave
 	double[] sum;					//holds the sum of the absolute value of 10 values of the wave array
-	//double[] transform;
-	//double[] transformi;
-	//Complex[] frequency;
-	//Complex[] transformc;
-	//Complex[] wavec;
-	//Complex[] wavec2;
-	//int variable;
 	int N;							//the length of the array according to how long the recording goes
-	//Complex c;
-	//double complexNumber;
-	
-	//double[] waveReal, waveImag;
-	
-	//FFT fft;
-	
 	int intCount;					//holds half the amount of the length of the recording
 	int width = 800;				// width of window in pixels
 	
@@ -51,7 +37,7 @@ public class SWave extends JFrame implements ActionListener
 	int m = 0;
 	
 	int count;							//variable to set the length of the initiated length of array
-	//int sample;
+	
 	double absoluteMax, relativeMax;	//variables to hold the absolute max and relative max
 										//absolute max is the initial sound and relative max
 										//is the immediate echo
