@@ -1,7 +1,7 @@
 // Recorder.java
-// Ila Torfin 2014 from Matthias Pfisterer's SimpleAudioRecorder
+// Barrett Koster 2014 from Matthias Pfisterer's SimpleAudioRecorder
 
-package sonar;
+package sonarOld;
 
 import java.io.*;
 
@@ -25,6 +25,23 @@ public class Recorder extends Thread
       m_audioInputStream = new AudioInputStream(line);
       m_targetType = targetType;
       m_outputFile = file;
+      /*
+      start();
+      try{ Thread.sleep(3000); } catch ( Exception o ) { System.out.println("insomnia"); }
+      
+      byte[] dataMaybe = new byte[10000];
+      int numnum =  line.read( dataMaybe, 0, 9996 );
+      System.out.println("numnum="+numnum);
+      intCount = numnum / 2;
+      N = numnum/2;
+      for ( int i=0; i<intCount; i++ )
+      {
+          int val = 256*dataMaybe[2*i+1] + dataMaybe[2*i];
+          wave[i] = val;
+      }
+      
+      return wave;
+      */
    }
 
 

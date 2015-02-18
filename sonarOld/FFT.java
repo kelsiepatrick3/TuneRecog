@@ -1,4 +1,4 @@
-package sonar;
+package sonarOld; 
 
 public class FFT 
 {
@@ -8,7 +8,7 @@ public class FFT
 	public FFT( Complex[] wave )
 	{
 		fft( wave );
-		ifft( wave );
+		ifft(wave);
 	}
 	
 	public static Complex[] fft(Complex[] x) {
@@ -18,7 +18,7 @@ public class FFT
         if (N == 1) return new Complex[] { x[0] };
 
         // radix 2 Cooley-Tukey FFT
-        if (N % 2 != 0) { throw new RuntimeException( "N is not a power of 2" ); }
+        if (N % 2 != 0) { throw new RuntimeException("N is not a power of 2"); }
 
         // fft of even terms
         Complex[] even = new Complex[N/2];
@@ -36,11 +36,9 @@ public class FFT
 
         // combine
         Complex[] y = new Complex[N];
-        for (int k = 0; k < N/2; k++) 
-        {
+        for (int k = 0; k < N/2; k++) {
             double kth = -2 * k * Math.PI / N;
             Complex wk = new Complex(Math.cos(kth), Math.sin(kth));
-            
             y[k]       = q[k].plus(wk.times(r[k]));
             y[k + N/2] = q[k].minus(wk.times(r[k]));
         }

@@ -1,10 +1,9 @@
 // Recorder.java
-// Ila Torfin 2014 from Matthias Pfisterer's SimpleAudioRecorder
+// Barrett Koster 2014 from Matthias Pfisterer's SimpleAudioRecorder
 
-package sonar;
+package wave3;
 
 import java.io.*;
-
 import javax.sound.sampled.*;
 
 
@@ -14,8 +13,6 @@ public class Recorder extends Thread
    private AudioFileFormat.Type  m_targetType;
    private AudioInputStream   m_audioInputStream;
    private File         m_outputFile;
-   int intCount, N;
-   int[] wave;
 
    public Recorder(TargetDataLine line,
                  AudioFileFormat.Type targetType,
@@ -25,6 +22,7 @@ public class Recorder extends Thread
       m_audioInputStream = new AudioInputStream(line);
       m_targetType = targetType;
       m_outputFile = file;
+      
    }
 
 
