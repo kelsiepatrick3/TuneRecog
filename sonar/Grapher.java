@@ -14,12 +14,14 @@ public class Grapher extends JPanel implements MouseListener, MouseMotionListene
 {
 	
 	double[] wave;  				// pointer to the data, note this is live
+	
 	Complex[] wavec; 				// if we are doing complex, THIS is really where the data is
 	int N;
 	double divisor = 0.0;  			// max of data
 	boolean isComplex = false; 		// false means double, true=complex
-	int width = 700;
-	int sample;
+	int width = 700; // width of the panel in pixels
+	int sample; // index to take a sample (is set by user clicking on graph)
+	int sampleSize=8000; // number of values in this sample
 	double pixPerSample;
 	
 	public Grapher( double[] wave1, int N1, int w )
@@ -56,11 +58,12 @@ public class Grapher extends JPanel implements MouseListener, MouseMotionListene
       setVisible(true);
 	}
 	
+	// set divisor to the maximum value of wave[] (but not less than .1)
 	public void computeDivisor()
 	{
 		divisor = wave[0];
 
-		for( int i=0; i<N; i++)
+		for( int i=1; i<N; i++)
 		{
 			if( wave[i] > divisor )
 			{
@@ -81,6 +84,22 @@ public class Grapher extends JPanel implements MouseListener, MouseMotionListene
       {
          wave[i] = wavec[i].mag();
       }
+	}
+	
+	// copy from this Grapher's wave[] to target, start at wave[sample]
+	// and do howMuch values
+	public void snip( double[] target, int howMuch )
+	{
+	   for ( int i=0; i<howMuch; i++ )
+	   {
+	      target[i] = wave[sample+i];
+	   }
+	}
+	
+	// if no size is given, use sampleSize
+	public void snip( double[] target )
+	{
+	   snip( target, sampleSize );
 	}
 			
 	public void paint( Graphics g )
@@ -112,8 +131,10 @@ public class Grapher extends JPanel implements MouseListener, MouseMotionListene
 		
 		g.setColor(Color.cyan);
 		
-		g.drawLine((int)(sample*pixPerSample), 0, (int)(sample*pixPerSample), 200);
-		g.drawLine((int)((sample+8000)*pixPerSample), 0, (int)((sample+8000)*pixPerSample), 200);
+		int sx = (int)(sample*pixPerSample);
+		int sxx = (int)((sample+sampleSize)*pixPerSample);
+		g.drawLine(sx, 0, sx, 200);
+		g.drawLine(sxx, 0, sxx, 200);
 	 }
 	 public Color randomPastel()
 	 {
@@ -129,18 +150,30 @@ public class Grapher extends JPanel implements MouseListener, MouseMotionListene
 	 {
 			int x = e.getX();
 		    sample = N * x / width ;
+		    sampleSize = 8000;
 		    repaint();
 	}
 	public void mouseEntered( MouseEvent e ) {}
 	public void mouseExited( MouseEvent e ) {}
-	public void mousePressed( MouseEvent e ) {}
+	public void mousePressed( MouseEvent e )
+	{
+			int x = e.getX();
+		    sample = N * x / width ;
+		    sampleSize = 200;
+		    repaint();
+	}
 	public void mouseReleased( MouseEvent e ){}
 	public void mouseDragged( MouseEvent e ) 
 	{
 			int x = e.getX();
-			sample = N * x / width; 
+			sampleSize = (N * x / width)-sample; 
 			repaint();
 	}
 	public void mouseMoved( MouseEvent e ) {}
+	
 
+
+   public int getSample() { return sample; }
+   
+ 
 }

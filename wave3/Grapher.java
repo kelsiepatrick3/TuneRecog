@@ -1,5 +1,6 @@
 //Grapher.java
 // This class is a JPanel that graphs ONE wave.
+// Barrett Koster 2014
 
 package wave3;
 

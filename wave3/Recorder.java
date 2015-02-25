@@ -22,11 +22,7 @@ public class Recorder extends Thread
       m_audioInputStream = new AudioInputStream(line);
       m_targetType = targetType;
       m_outputFile = file;
-      
    }
-
-
-
 
    /** Starts the recording.
        To accomplish this, (i) the line is started and (ii) the
