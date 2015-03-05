@@ -28,6 +28,8 @@ public class Tune02 extends JFrame implements ActionListener
 	JButton record, play, graphMe;	//buttons to start the function of the program
 	JPanel panel1, panel2;			//holds the buttons and the graphs
 	
+	FFT trans;						// fourier transform variable
+	Complex[] wave1c;
 	
 	/*
 	 * used to hold the position of the absoluteMax, minimum and 
@@ -88,12 +90,17 @@ public class Tune02 extends JFrame implements ActionListener
 		
 		panel2.add( graph = new Grapher(wave, 65536/2, width) );
 	    panel2.add( new Grapher(wave1, 8000, width) );
-	    panel2.add( new Grapher(sum, 8000, width) );
+	    //panel2.add( new Grapher(sum, 8000, width) );
+	    
+	    wave1c = Complex.real2complex(wave1, 4096);
+	    trans = new FFT(wave1c); 
+	    double[] wave1d = Complex.complex2real(trans.fft(wave1c), 4096);
+	    panel2.add(new Grapher(wave1d, 4096, width) );
 		
 		setVisible(true);
 		
 	}
-	
+		
 	// make a button with this name, add it to this panel, and return the JButton, oh 
 	// and send action listener to this
 	public JButton makeButton( String name, JPanel jp )
