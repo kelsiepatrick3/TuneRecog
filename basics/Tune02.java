@@ -92,10 +92,10 @@ public class Tune02 extends JFrame implements ActionListener
 	    panel2.add( new Grapher(wave1, 8000, width) );
 	    //panel2.add( new Grapher(sum, 8000, width) );
 	    
-	    wave1c = Complex.real2complex(wave1, 4096);
-	    trans = new FFT(wave1c); 
-	    double[] wave1d = Complex.complex2real(trans.fft(wave1c), 4096);
-	    panel2.add(new Grapher(wave1d, 4096, width) );
+	  //  wave1c = Complex.real2complex(wave1, 4096);
+	  //  trans = new FFT(); 
+	  //  double[] wave1d = Complex.complex2real(trans.fft(wave1c), 4096);
+	  //  panel2.add(new Grapher(wave1d, 4096, width) );
 		
 		setVisible(true);
 		
@@ -121,6 +121,7 @@ public class Tune02 extends JFrame implements ActionListener
 		else if ( e.getSource() == play    ) { playSound = new Player(); }
 		else if ( e.getSource() == graphMe ) { alignWave(); }
 		
+		
 		validate();
 		repaint();
 	}
@@ -136,6 +137,12 @@ public class Tune02 extends JFrame implements ActionListener
 			wave1[i] = wave[i+offset];
 		}
 		doSum( wave1 );
+		
+		  wave1c = Complex.real2complex(wave1, 4096);
+		  trans = new FFT(); 
+		  double[] wave1d = Complex.complex2real(trans.fft(wave1c), 250);
+		  panel2.add(new Grapher(wave1d, 250, width) );
+		
 		validate(); repaint();
 
 	}

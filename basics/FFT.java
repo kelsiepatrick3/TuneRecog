@@ -4,21 +4,21 @@ public class FFT
 {
 	//int length = 0;
 	//int N = 0;
-	
+	public FFT()
+	{
+		
+	}
 	public FFT( Complex[] wave )
 	{
 		fft( wave );
 		ifft( wave );
 	}
-	
+	// compute fourier transform of x, size of x should be a power of 2
 	public static Complex[] fft(Complex[] x) {
         int N = x.length;
 
         // base case
         if (N == 1) return new Complex[] { x[0] };
-
-        // radix 2 Cooley-Tukey FFT
-        if (N % 2 != 0) { throw new RuntimeException( "N is not a power of 2" ); }
 
         // fft of even terms
         Complex[] even = new Complex[N/2];
@@ -38,8 +38,8 @@ public class FFT
         Complex[] y = new Complex[N];
         for (int k = 0; k < N/2; k++) 
         {
-            double kth = -2 * k * Math.PI / N;
-            Complex wk = new Complex(Math.cos(kth), Math.sin(kth));
+            double kth = -2 * k * Math.PI / N;						// just the angle for the complex number
+            Complex wk = new Complex(Math.cos(kth), Math.sin(kth)); // now we make a complex number using the angle
             
             y[k]       = q[k].plus(wk.times(r[k]));
             y[k + N/2] = q[k].minus(wk.times(r[k]));
