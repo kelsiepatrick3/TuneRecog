@@ -144,7 +144,12 @@ public class Tune02 extends JFrame implements ActionListener
 		  trans = new FFT(); 
 		  double[] wave1d = Complex.complex2real(trans.fft(wave1c), 250);
 		  panel2.add(new Grapher(wave1d, 250, width) );
-		
+		  int mi = maxIndex(wave1d,250);
+		  System.out.println("Max index = " + mi);
+		  double f = mi * 10.75;
+		  System.out.println("The frequency is " + f);
+		  findKey(f);
+		  
 		validate(); repaint();
 
 	}
@@ -299,9 +304,45 @@ public class Tune02 extends JFrame implements ActionListener
 		System.out.println( "Distance: "+distance );
 
 	}
+	// array a is a sample and we are finding the largest value of a 
+	// b is the number of elements in a and we return the index of the max
+	public int maxIndex(double[] a, int b)
+	{
+		double max = 0; 
+		int mi = 0;
+		
+		for (int i=4; i < b; i++)
+		{
+			double A = a[i]; 
+			
+			if (A > max )
+			{
+				max = A;
+				mi = i; 
+			}
+			
+		}
+		
+		return mi;
+		
+	}
 	
 	public void findKey(double tune)
 	{
+		if (tune > 450 )
+		{
+			while (tune > 450)
+			{
+				tune /= 2;
+			}
+		}
+		if (tune < 230 )
+		{
+			while (tune < 230)
+			{
+				tune *= 2;
+			}
+		}
 		if (tune < 230 && tune > 210) 						// A = 220
 		{
 			System.out.println("The note you sang was A");
