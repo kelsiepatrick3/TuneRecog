@@ -15,20 +15,20 @@ import javax.swing.*;
 public class Tune02 extends JFrame implements ActionListener
 {
 	
-	double[] wave;  // raw recorded sound wave
-	Grapher graph; // panel to display wave
+	double[] wave; 						// raw recorded sound wave
+	Grapher graph; 						// panel to display wave
 
 	
-	double[] wave1;			//holds the raw recorded sound wave (another?)
-	double[] sum;					//holds the sum of the absolute value of 10 values of the wave array
-	int N;							//the length of the array according to how long the recording goes
-	int intCount;					//holds half the amount of the length of the recording
-	int width = 800;				// width of window in pixels
+	double[] wave1;						//holds the raw recorded sound wave (another?)
+	double[] sum;						//holds the sum of the absolute value of 10 values of the wave array
+	int N;								//the length of the array according to how long the recording goes
+	int intCount;						//holds half the amount of the length of the recording
+	int width = 800;					// width of window in pixels
 	
-	JButton record, play, graphMe;	//buttons to start the function of the program
-	JPanel panel1, panel2;			//holds the buttons and the graphs
+	JButton record, play, graphMe;		//buttons to start the function of the program
+	JPanel panel1, panel2;				//holds the buttons and the graphs
 	
-	FFT trans;						// fourier transform variable
+	FFT trans;							// fourier transform variable
 	Complex[] wave1c;
 	
 	/*
@@ -39,6 +39,8 @@ public class Tune02 extends JFrame implements ActionListener
 	int j = 0; 
 	int m = 0;
 	
+	double tune = 0; 					// will be the note that the max will find
+		
 	int count;							//variable to set the length of the initiated length of array
 	
 	double absoluteMax, relativeMax;	//variables to hold the absolute max and relative max
@@ -296,6 +298,63 @@ public class Tune02 extends JFrame implements ActionListener
 		double distance = m - k;
 		System.out.println( "Distance: "+distance );
 
+	}
+	
+	public void findKey(double tune)
+	{
+		if (tune < 230 && tune > 210) 						// A = 220
+		{
+			System.out.println("The note you sang was A");
+		}
+		else if (tune < 243 && tune > 230)					// A# = 233
+		{
+			System.out.println("The note you sang was A#");
+		}
+		else if (tune < 256 && tune > 243)					// B = 246
+		{
+			System.out.println("The note you sang was B");
+		}
+		else if (tune < 271 && tune > 256)					// C = 261
+		{
+			System.out.println("The note you sang was C");
+		}
+		else if (tune < 287 && tune > 271)					// C# = 277
+		{
+			System.out.println("The note you sang was C#");
+		}
+		else if (tune < 303 && tune > 287)					// D = 293
+		{
+			System.out.println("The note you sang was D");
+		}
+		else if (tune < 321 && tune > 303)					// D# = 311
+		{
+			System.out.println("The note you sang was D#");
+		}
+		else if (tune < 339 && tune > 321)					// E = 329
+		{
+			System.out.println("The note you sang was E");
+		}
+		else if (tune < 359 && tune > 339)					// F = 349
+		{
+			System.out.println("The note you sang was F");
+		}
+		else if (tune < 379 && tune > 359)					// F# = 369
+		{
+			System.out.println("The note you sang was F#");
+		}
+		else if (tune < 401 && tune > 379)					// G = 391
+		{
+			System.out.println("The note you sang was G");
+		}
+		else if (tune < 425 && tune > 401)					// G# = 415
+		{
+			System.out.println("The note you sang was G#");
+		}
+		else if (tune < 450 && tune > 425)					// A = 440
+		{
+			System.out.println("The note you sang was A");
+		}
+			
 	}
 
 }
