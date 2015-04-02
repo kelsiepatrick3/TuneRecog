@@ -16,10 +16,12 @@ public class Tune02 extends JFrame implements ActionListener
 {
 	
 	double[] wave; 						// raw recorded sound wave
-	Grapher graph; 						// panel to display wave
-
+	Grapher graph;						// panel to display wave
+	Grapher graph2; 					// show subsample of the first wave						
+	Grapher graph3;						// shows the FFT sample
 	
 	double[] wave1;						//holds the raw recorded sound wave (another?)
+	double[] wave1d;
 	double[] sum;						//holds the sum of the absolute value of 10 values of the wave array
 	int N;								//the length of the array according to how long the recording goes
 	int intCount;						//holds half the amount of the length of the recording
@@ -76,6 +78,7 @@ public class Tune02 extends JFrame implements ActionListener
 	    
 		wave = new double[count];
 		wave1 = new double[count];
+		wave1d = new double[count];
 		
 		//wavec = new Complex[65536];
 		//transformc = new Complex[count]; 
@@ -90,7 +93,8 @@ public class Tune02 extends JFrame implements ActionListener
 		panel2.setBackground(Color.gray);
 		
 		panel2.add( graph = new Grapher(wave, 65536/2, width) );
-	    panel2.add( new Grapher(wave1, 8000, width) );
+	    panel2.add( graph2 = new Grapher(wave1, 8000, width) );
+	    panel2.add(graph3 = new Grapher(wave1d, 250, width));
 	    //panel2.add( new Grapher(sum, 8000, width) );
 	    
 	  //  wave1c = Complex.real2complex(wave1, 4096);
@@ -132,8 +136,10 @@ public class Tune02 extends JFrame implements ActionListener
 	{       
 		int offset = graph.getSample();
 		System.out.println("alignWave: offset="+offset);
-	   
-		for( int i=0; i<8000; i++ )
+		int sampleSize = graph.getSampleSize();
+		graph2.theRest(sampleSize, width);
+		
+		for( int i=0; i<sampleSize; i++ )
 		{
 			wave1[i] = wave[i+offset];
 		}
@@ -141,8 +147,9 @@ public class Tune02 extends JFrame implements ActionListener
 		
 		  wave1c = Complex.real2complex(wave1, 4096);
 		  trans = new FFT(); 
-		  double[] wave1d = Complex.complex2real(trans.fft(wave1c), 250);
-		  panel2.add(new Grapher(wave1d, 250, width) );
+		  wave1d = Complex.complex2real(trans.fft(wave1c), 250);
+		  
+		  graph3.recon( wave1d, 250, width);
 		  int mi = maxIndex(wave1d,250);
 		  System.out.println("Max index = " + mi);
 		  double f = mi * 10.75;

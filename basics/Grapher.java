@@ -21,7 +21,7 @@ public class Grapher extends JPanel implements MouseListener, MouseMotionListene
 	boolean isComplex = false; 		// false means double, true=complex
 	int width = 700; // width of the panel in pixels
 	int sample; // index to take a sample (is set by user clicking on graph)
-	int sampleSize=8000; // number of values in this sample
+	int sampleSize=4096; // number of values in this sample
 	double pixPerSample;
 	
 	public Grapher( double[] wave1, int N1, int w )
@@ -37,6 +37,15 @@ public class Grapher extends JPanel implements MouseListener, MouseMotionListene
 	   wavec = wavec1; // shallow copy
 	   isComplex = true;
 	   theRest( N1, w );
+	}
+	
+	public void recon(double[] wave1, int N1, int w)
+	{
+		wave = wave1; 
+		isComplex = false;
+		width = w; 
+	    N = N1;
+	    sample = 0;
 	}
 	
 	public void theRest( int N1, int w )
@@ -150,7 +159,7 @@ public class Grapher extends JPanel implements MouseListener, MouseMotionListene
 	 {
 			int x = e.getX();
 		    sample = N * x / width ;
-		    sampleSize = 8000;
+		    sampleSize = 4096;
 		    repaint();
 	}
 	public void mouseEntered( MouseEvent e ) {}
@@ -174,6 +183,7 @@ public class Grapher extends JPanel implements MouseListener, MouseMotionListene
 
 
    public int getSample() { return sample; }
+   public int getSampleSize() { return sampleSize;}
    
  
 }
