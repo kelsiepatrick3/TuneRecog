@@ -61,7 +61,6 @@ public class Tune02 extends JFrame implements ActionListener
 		setSize(900,600);
 		setTitle("Sound Wave");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setLocationRelativeTo(null);
 		setLayout( new BorderLayout());
 			
 		// add play, record, and graph buttons to NORTH panel

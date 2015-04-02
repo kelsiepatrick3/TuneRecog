@@ -2,8 +2,6 @@ package basics;
 
 public class FFT 
 {
-	//int length = 0;
-	//int N = 0;
 	public FFT()
 	{
 		
@@ -111,6 +109,6 @@ public class FFT
         for (int i = 0;        i <   y.length; i++) b[i] = y[i];
         for (int i = y.length; i < 2*y.length; i++) b[i] = ZERO;
 
-        return cconvolve(a, b);
+        return convolve(a, b);
     }
 }
