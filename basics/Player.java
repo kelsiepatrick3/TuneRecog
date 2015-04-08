@@ -131,7 +131,7 @@ public class Player
          try
          {
             nBytesRead = audioInputStream.read(abData, 0, abData.length);
-            // print out how many bytes read and written and make sure they are the same ***
+            System.out.println("Reading this many bytes: " + nBytesRead);
          }
          catch (IOException e)
          {
@@ -140,6 +140,7 @@ public class Player
          if (nBytesRead >= 0)
          {
             int   nBytesWritten = line.write(abData, 0, nBytesRead);
+            System.out.println("Writing this many bytes: " + nBytesWritten);
          }
       }
 
