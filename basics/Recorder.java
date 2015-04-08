@@ -12,7 +12,7 @@ public class Recorder extends Thread
 {
    private TargetDataLine     m_line;
    private AudioFileFormat.Type  m_targetType;
-   private AudioInputStream   m_audioInputStream;
+   protected AudioInputStream   m_audioInputStream;
    private File         m_outputFile;
    int intCount, N;
    int[] wave;

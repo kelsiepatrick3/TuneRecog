@@ -4,25 +4,35 @@
 package basics;
 
 import java.io.*;
+
 import javax.sound.sampled.*;
 
 public class Player
 {
+	Tune02 theTune02;
+	AudioFormat audioFormat;
+	AudioInputStream audioInputStream; 
+	
    private static final int   EXTERNAL_BUFFER_SIZE = 128000;
 
-   public Player()
+   public Player(Tune02 t1)
    {
+	   theTune02 = t1;
+	   audioFormat = theTune02.audioFormat;
+	   
       // output filename is hardwired for testing
       //args = new String[1];
       //args[0] = "HollerHolder";
 
       //String   strFilename = args[0];
       File  soundFile = new File("HollerHolder");
-   
-      /*
-        We have to read in the sound file.
-      */
-      AudioInputStream  audioInputStream = null;
+      
+      //audioInputStream = theTune02.recorder.m_audioInputStream;
+      
+      
+       // We have to read in the sound file.
+      
+      audioInputStream = null;
       try
       {
          audioInputStream = AudioSystem.getAudioInputStream(soundFile);
@@ -37,8 +47,9 @@ public class Player
          e.printStackTrace();
          System.exit(1);
       }
-
+   		
       /*
+       *
         From the AudioInputStream, i.e. from the sound file,
         we fetch information about the format of the
         audio data.
@@ -49,7 +60,8 @@ public class Player
         are needed to ask Java Sound for a suitable output line
         for this audio file.
       */
-      AudioFormat audioFormat = audioInputStream.getFormat();
+     // AudioFormat audioFormat = audioInputStream.getFormat();
+      
 
       /*
         Asking for a line is a rather tricky thing.
@@ -119,6 +131,7 @@ public class Player
          try
          {
             nBytesRead = audioInputStream.read(abData, 0, abData.length);
+            // print out how many bytes read and written and make sure they are the same ***
          }
          catch (IOException e)
          {

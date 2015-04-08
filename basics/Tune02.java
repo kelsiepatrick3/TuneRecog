@@ -33,6 +33,8 @@ public class Tune02 extends JFrame implements ActionListener
 	FFT trans;							// fourier transform variable
 	Complex[] wave1c;
 	
+	AudioFormat audioFormat; 
+		
 	/*
 	 * used to hold the position of the absoluteMax, minimum and 
 	 * relative max
@@ -101,6 +103,15 @@ public class Tune02 extends JFrame implements ActionListener
 	  //  trans = new FFT(); 
 	  //  double[] wave1d = Complex.complex2real(trans.fft(wave1c), 4096);
 	  //  panel2.add(new Grapher(wave1d, 4096, width) );
+	    
+	    /*
+		 * For simplicity, the audio data format used for recording
+	      is hard coded here. We use PCM 44.1 kHz, 16 bit signed,
+	      stereo. 
+	    */    
+	    audioFormat = new AudioFormat(
+		         AudioFormat.Encoding.PCM_SIGNED,
+		         44100.0F, 16, 2, 4, 44100.0F, false);
 		
 		setVisible(true);
 		
@@ -123,7 +134,7 @@ public class Tune02 extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
 		if      ( e.getSource() == record  ) { RecordThis(); }
-		else if ( e.getSource() == play    ) { playSound = new Player(); }
+		else if ( e.getSource() == play    ) { playSound = new Player(this); }
 		else if ( e.getSource() == graphMe ) { alignWave(); }
 		
 		
@@ -164,14 +175,8 @@ public class Tune02 extends JFrame implements ActionListener
 	public void RecordThis()
 	{
 		File  outputFile = new File("HollerHolder");
-		/*
-		 * For simplicity, the audio data format used for recording
-	      is hard coded here. We use PCM 44.1 kHz, 16 bit signed,
-	      stereo. 
-	    */
-	     AudioFormat audioFormat = new AudioFormat(
-	         AudioFormat.Encoding.PCM_SIGNED,
-	         44100.0F, 16, 2, 4, 44100.0F, false);
+		
+	     
 
 	      /* 
 	       * Now, we are trying to get a TargetDataLine. The
@@ -205,7 +210,7 @@ public class Tune02 extends JFrame implements ActionListener
 	         recording, reading audio data from the TargetDataLine
 	         and writing the data to a file.
 	      */
-	      Recorder  recorder = new Recorder(
+	      recorder = new Recorder(
 	         targetDataLine,
 	         targetType,
 	         outputFile); 
