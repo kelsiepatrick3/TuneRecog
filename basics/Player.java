@@ -137,7 +137,7 @@ public class Player
          {
             e.printStackTrace();
          }
-         if (nBytesRead >= 0)
+         if (nBytesRead >= 0) 				// this should really be if stm
          {
             int   nBytesWritten = line.write(abData, 0, nBytesRead);
             System.out.println("Writing this many bytes: " + nBytesWritten);

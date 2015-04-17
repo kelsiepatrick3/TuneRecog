@@ -31,7 +31,7 @@ public class Recorder extends Thread
        To accomplish this, (i) the line is started and (ii) the
        thread is started.
    */
-   public void start()
+   public void startRecording()
    {
       /* Starting the TargetDataLine. It tells the line that
          we now want to read data from it. If this method

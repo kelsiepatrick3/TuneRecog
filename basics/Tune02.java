@@ -27,14 +27,15 @@ public class Tune02 extends JFrame implements ActionListener
 	int intCount;						//holds half the amount of the length of the recording
 	int width = 800;					// width of window in pixels
 	
-	JButton record, play, graphMe;		//buttons to start the function of the program
+	JButton record, play, graphMe,Many;		//buttons to start the function of the program
 	JPanel panel1, panel2;				//holds the buttons and the graphs
 	
 	FFT trans;							// fourier transform variable
 	Complex[] wave1c;
 	
 	AudioFormat audioFormat; 
-		
+	
+	String[] noteName = new String[]{"A", "A#", "B", "C", "C#","D", "D#","E","F","F#","G", "G#","A"};		
 	/*
 	 * used to hold the position of the absoluteMax, minimum and 
 	 * relative max
@@ -75,6 +76,7 @@ public class Tune02 extends JFrame implements ActionListener
 	    record = makeButton( "Record", panel1 ); // new JButton("Record");
 	    play = makeButton( "Play", panel1 );
 	    graphMe = makeButton( "Graph", panel1 );
+	    Many = makeButton("Continuous", panel1);
 
 	    count =100000;
 	    
@@ -136,12 +138,21 @@ public class Tune02 extends JFrame implements ActionListener
 		if      ( e.getSource() == record  ) { RecordThis(); }
 		else if ( e.getSource() == play    ) { playSound = new Player(this); }
 		else if ( e.getSource() == graphMe ) { alignWave(); }
+		else if (e.getSource() == Many){redo();		}
 		
 		
 		validate();
 		repaint();
 	}
 	
+	public void redo()
+	{
+		for( int i = 0; i < 50; i++)
+		{
+			RecordThis();
+			alignWave();
+		}
+	}
 	//gets the sample that is clicked on from the wave graph
 	public void alignWave()
 	{       
@@ -215,7 +226,7 @@ public class Tune02 extends JFrame implements ActionListener
 	         targetType,
 	         outputFile); 
 	      
-	      recorder.start();
+	      recorder.startRecording();
 	      try{ Thread.sleep(500); } catch ( Exception o ) { System.out.println("insomnia"); }
 	      
 	      byte[] dataMaybe = new byte[count];
@@ -340,73 +351,27 @@ public class Tune02 extends JFrame implements ActionListener
 	
 	public void findKey(double tune)
 	{
-		if (tune > 450 )
+		double log220 = Math.log(220);
+		double log2   = Math.log(2);
+		
+		if (tune > 440 )
 		{
-			while (tune > 450)
+			while (tune > 440)
 			{
 				tune /= 2;
 			}
 		}
-		if (tune < 230 )
+		if (tune <= 220 )
 		{
-			while (tune < 230)
+			while (tune <= 220)
 			{
 				tune *= 2;
 			}
 		}
-		if (tune < 230 && tune > 210) 						// A = 220
-		{
-			System.out.println("The note you sang was A");
-		}
-		else if (tune < 243 && tune > 230)					// A# = 233
-		{
-			System.out.println("The note you sang was A#");
-		}
-		else if (tune < 256 && tune > 243)					// B = 246
-		{
-			System.out.println("The note you sang was B");
-		}
-		else if (tune < 271 && tune > 256)					// C = 261
-		{
-			System.out.println("The note you sang was C");
-		}
-		else if (tune < 287 && tune > 271)					// C# = 277
-		{
-			System.out.println("The note you sang was C#");
-		}
-		else if (tune < 303 && tune > 287)					// D = 293
-		{
-			System.out.println("The note you sang was D");
-		}
-		else if (tune < 321 && tune > 303)					// D# = 311
-		{
-			System.out.println("The note you sang was D#");
-		}
-		else if (tune < 339 && tune > 321)					// E = 329
-		{
-			System.out.println("The note you sang was E");
-		}
-		else if (tune < 359 && tune > 339)					// F = 349
-		{
-			System.out.println("The note you sang was F");
-		}
-		else if (tune < 379 && tune > 359)					// F# = 369
-		{
-			System.out.println("The note you sang was F#");
-		}
-		else if (tune < 401 && tune > 379)					// G = 391
-		{
-			System.out.println("The note you sang was G");
-		}
-		else if (tune < 425 && tune > 401)					// G# = 415
-		{
-			System.out.println("The note you sang was G#");
-		}
-		else if (tune < 450 && tune > 425)					// A = 440
-		{
-			System.out.println("The note you sang was A");
-		}
-			
+		int n = (int)((Math.log(tune)- log220)*12/log2);
+		String theNote = noteName[n];
+		System.out.print("The note is " + theNote);		
+	
 	}
 
 }
