@@ -1,6 +1,7 @@
 // Player.java
 // Barrett Koster 2014 from Matthias Pfisterer's SimpleAudioPlayer
 
+
 package basics;
 
 import java.io.*;
@@ -19,19 +20,10 @@ public class Player
    {
 	   theTune02 = t1;
 	   audioFormat = theTune02.audioFormat;
-	   
-      // output filename is hardwired for testing
-      //args = new String[1];
-      //args[0] = "HollerHolder";
 
-      //String   strFilename = args[0];
-      File  soundFile = new File("HollerHolder");
+      File  soundFile = new File("HollerHolder");    
       
-      //audioInputStream = theTune02.recorder.m_audioInputStream;
-      
-      
-       // We have to read in the sound file.
-      
+      // We have to read in the sound file.      
       audioInputStream = null;
       try
       {
@@ -160,23 +152,6 @@ public class Player
       */
       line.close();
 
-      /*
-        There is a bug in the jdk1.3/1.4.
-        It prevents correct termination of the VM.
-        So we have to exit ourselves.
-      */
-      //System.exit(0);
    }
-
-
-/*
-   private static void out(String strMessage)
-   {
-      System.out.println(strMessage);
-   }
- */
 }
-
-
-
 /*** SimpleAudioPlayer.java ***/

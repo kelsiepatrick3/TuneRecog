@@ -1,13 +1,13 @@
 // Tune02.java
-// BEK  We are working from Ila's RoomBat thingy, just trying to get some control
-// over this code, do some basic recording.
+// Kelsie Patrick CS-499
+// Tune02: sing a note into the microphone and then 
+//the program will tell you what note was sung
 
 package basics;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import sonar.*; // Ila's old code
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -15,27 +15,29 @@ import javax.swing.*;
 public class Tune02 extends JFrame implements ActionListener
 {
 	
-	double[] wave; 						// raw recorded sound wave
-	Grapher graph;						// panel to display wave
-	Grapher graph2; 					// show subsample of the first wave						
-	Grapher graph3;						// shows the FFT sample
+	double[] wave; 							// raw recorded sound wave
+	Grapher graph;							// panel to display wave
+	Grapher graph2; 						// show subsample of the first wave						
+	Grapher graph3;							// shows the FFT sample
 	
-	double[] wave1;						//holds the raw recorded sound wave (another?)
+	double[] wave1;							//holds the raw recorded sound wave (another?)
 	double[] wave1d;
-	double[] sum;						//holds the sum of the absolute value of 10 values of the wave array
-	int N;								//the length of the array according to how long the recording goes
-	int intCount;						//holds half the amount of the length of the recording
-	int width = 800;					// width of window in pixels
+	double[] sum;							//holds the sum of the absolute value of 10 values of the wave array
+	int N;									//the length of the array according to how long the recording goes
+	int intCount;							//holds half the amount of the length of the recording
+	int width = 800;						// width of window in pixels
 	
-	JButton record, play, graphMe,Many;		//buttons to start the function of the program
-	JPanel panel1, panel2;				//holds the buttons and the graphs
+	JButton record, play, graphMe, many;	//buttons to start the function of the program
+	JPanel panel1, panel2;					//holds the buttons and the graphs
 	
-	FFT trans;							// fourier transform variable
+	FFT trans;								// fourier transform variable
 	Complex[] wave1c;
 	
 	AudioFormat audioFormat; 
 	
-	String[] noteName = new String[]{"A", "A#", "B", "C", "C#","D", "D#","E","F","F#","G", "G#","A"};		
+	// noteName is an array full of all the notes on a staff
+	String[] noteName = new String[]{"A", "A#", "B", "C", "C#","D", "D#","E","F","F#","G", "G#","A"};	
+	
 	/*
 	 * used to hold the position of the absoluteMax, minimum and 
 	 * relative max
@@ -64,30 +66,26 @@ public class Tune02 extends JFrame implements ActionListener
 	public Tune02()
 	{
 		setSize(900,600);
-		setTitle("Sound Wave");
+		setTitle("Tune02");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout( new BorderLayout());
 			
-		// add play, record, and graph buttons to NORTH panel
+		// add play, record, graph, and continuous record buttons to NORTH panel
 	    panel1 = new JPanel();
 		panel1.setBackground(Color.gray);
 	    add( panel1, BorderLayout.NORTH );
 	    panel1.setLayout( new FlowLayout() );
-	    record = makeButton( "Record", panel1 ); // new JButton("Record");
+	    record = makeButton( "Record Once", panel1 ); 
 	    play = makeButton( "Play", panel1 );
 	    graphMe = makeButton( "Graph", panel1 );
-	    Many = makeButton("Continuous", panel1);
-
+	    many = makeButton("Continuous Record", panel1);
+	   
 	    count =100000;
 	    
 		wave = new double[count];
 		wave1 = new double[count];
 		wave1d = new double[count];
-		
-		//wavec = new Complex[65536];
-		//transformc = new Complex[count]; 
-		//frequency = new Complex[count];
-		
+			
 		sum = new double[count];						//initiate sum array
 
 		// add panel2 to CENTER, put Graphs on it
@@ -96,16 +94,10 @@ public class Tune02 extends JFrame implements ActionListener
 		add( panel2, BorderLayout.CENTER );
 		panel2.setBackground(Color.gray);
 		
-		panel2.add( graph = new Grapher(wave, 65536/2, width) );
-	    panel2.add( graph2 = new Grapher(wave1, 8000, width) );
-	    panel2.add(graph3 = new Grapher(wave1d, 250, width));
-	    //panel2.add( new Grapher(sum, 8000, width) );
-	    
-	  //  wave1c = Complex.real2complex(wave1, 4096);
-	  //  trans = new FFT(); 
-	  //  double[] wave1d = Complex.complex2real(trans.fft(wave1c), 4096);
-	  //  panel2.add(new Grapher(wave1d, 4096, width) );
-	    
+		panel2.add( graph = new Grapher(wave, 65536/2, width) );	// graphs the initial recording
+	    panel2.add( graph2 = new Grapher(wave1, 8000, width) );		// graphs the snipped portion of the original
+	    panel2.add( graph3 = new Grapher(wave1d, 250, width));		// graphs the frequencies  
+		    
 	    /*
 		 * For simplicity, the audio data format used for recording
 	      is hard coded here. We use PCM 44.1 kHz, 16 bit signed,
@@ -138,15 +130,14 @@ public class Tune02 extends JFrame implements ActionListener
 		if      ( e.getSource() == record  ) { RecordThis(); }
 		else if ( e.getSource() == play    ) { playSound = new Player(this); }
 		else if ( e.getSource() == graphMe ) { alignWave(); }
-		else if (e.getSource() == Many){redo();		}
-		
-		
+		else if ( e.getSource() == many)     { redo();		}
+			
 		validate();
 		repaint();
 	}
 	
 	public void redo()
-	{
+	{ 
 		for( int i = 0; i < 50; i++)
 		{
 			RecordThis();
@@ -187,8 +178,6 @@ public class Tune02 extends JFrame implements ActionListener
 	{
 		File  outputFile = new File("HollerHolder");
 		
-	     
-
 	      /* 
 	       * Now, we are trying to get a TargetDataLine. The
 	         TargetDataLine is used later to read audio data from it.
@@ -242,23 +231,9 @@ public class Tune02 extends JFrame implements ActionListener
 	      
 	      recorder.stopRecording(); System.out.println(" \n Recording stopped.");
 	      
-	      // sets a new array filled with the first 8000 variables from wave[]
-		 //graph.snip(wave1,8000);
+	     // sets a new array filled with the first 8000 variables from wave[]
 		 graph.snip(wave1);
 	}
-	
-
-	//analysis
-	/*public void doFFT()
-	{
-		for ( int i=0; i<65536; i++ ) 
-		{
-			wavec[i] = new Complex( wave[i],0 ); 
-		}
-
-	   fft = new FFT(wavec);
-	   transformc = FFT.fft(wavec);	   
-	}*/
 	
 	//sums up all the variable of the wave array in order to 
 	//smooth it out
@@ -349,6 +324,7 @@ public class Tune02 extends JFrame implements ActionListener
 		
 	}
 	
+	// finds the frequency for each note 
 	public void findKey(double tune)
 	{
 		double log220 = Math.log(220);

@@ -1,5 +1,6 @@
 //Grapher.java
-// This class is a JPanel that graphs ONE wave.
+// This class is a JPanel that graphs waves.
+
 
 package basics;
 
@@ -19,9 +20,9 @@ public class Grapher extends JPanel implements MouseListener, MouseMotionListene
 	int N;
 	double divisor = 0.0;  			// max of data
 	boolean isComplex = false; 		// false means double, true=complex
-	int width = 700; // width of the panel in pixels
-	int sample; // index to take a sample (is set by user clicking on graph)
-	int sampleSize=4096; // number of values in this sample
+	int width = 700; 				// width of the panel in pixels
+	int sample;					    // index to take a sample (is set by user clicking on graph)
+	int sampleSize=4096; 			// number of values in this sample
 	double pixPerSample;
 	
 	public Grapher( double[] wave1, int N1, int w )
@@ -116,10 +117,9 @@ public class Grapher extends JPanel implements MouseListener, MouseMotionListene
 		super.paint(g);
 		
 		if (isComplex) { realify(); }
-		//System.out.println("check1");
+		
 		computeDivisor();
-		//System.out.println("check2");
-		//x axis
+		
 		g.setColor(Color.white);
 		g.drawLine(0, 100, width, 100);	
 			

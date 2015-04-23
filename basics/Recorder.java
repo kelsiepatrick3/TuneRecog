@@ -45,7 +45,7 @@ public class Recorder extends Thread
          data is actually read from the line.
       */
       super.start();
-      //SoundWave wave = new SoundWave();
+      
    }
 
 
